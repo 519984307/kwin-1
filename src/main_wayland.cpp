@@ -309,6 +309,7 @@ int main(int argc, char *argv[])
     QCommandLineOption waylandDisplayOption(QStringLiteral("wayland-display"),
                                             i18n("The Wayland Display to use in windowed mode on platform Wayland."),
                                             QStringLiteral("display"));
+    QCommandLineOption virtualFbOption(QStringLiteral("hwcomposer"), i18n("Render to a a hwcomposer platform."));
     QCommandLineOption virtualFbOption(QStringLiteral("virtual"), i18n("Render to a virtual framebuffer."));
     QCommandLineOption widthOption(QStringLiteral("width"),
                                    i18n("The width for windowed mode. Default width is 1024."),

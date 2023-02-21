@@ -243,6 +243,10 @@ set_package_properties(UDev PROPERTIES
     PURPOSE "Required for input handling on Wayland."
 )
 
+find_package(libhybris)
+set_package_properties(libhybris PROPERTIES TYPE OPTIONAL PURPOSE "Required for libhybris backend")
+set(HAVE_LIBHYBRIS ${libhybris_FOUND})
+
 find_package(Libdrm 2.4.112)
 set_package_properties(Libdrm PROPERTIES TYPE REQUIRED PURPOSE "Required for drm output on Wayland.")
 
