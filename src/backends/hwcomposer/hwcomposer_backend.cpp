@@ -12,7 +12,7 @@
 #include "egl_hwcomposer_backend.h"
 #include "logging.h"
 #include "main.h"
-#include "scene.h"
+#include "scene/scene.h"
 #include "session.h"
 
 //#include "screens_hwcomposer.h"

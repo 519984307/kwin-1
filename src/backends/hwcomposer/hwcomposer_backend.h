@@ -32,7 +32,6 @@
 #include "core/renderloop.h"
 #include <KF5/KWayland/Server/output_interface.h>
 
-
 typedef struct hwc_display_contents_1 hwc_display_contents_1_t;
 typedef struct hwc_layer_1 hwc_layer_1_t;
 typedef struct hwc_composer_device_1 hwc_composer_device_1_t;
@@ -61,8 +60,8 @@ public:
     bool isValid() const;
     bool hardwareTransforms() const;
     void setDpmsMode(DpmsMode mode) override;
-    void setEnabled(bool enable) override;
-    bool isEnabled() const override;
+    void setEnabled(bool enable);
+    bool isEnabled() const;
 Q_SIGNALS:
     void dpmsModeRequested(HwcomposerOutput::DpmsMode mode);
 private:
@@ -86,13 +85,13 @@ public:
     OpenGLBackend *createOpenGLBackend() override;
 
     Outputs outputs() const override;
-    Outputs enabledOutputs() const override;
+    Outputs enabledOutputs() const;
 
     QSize size() const;
-    QSize screenSize() const override;
+    QSize screenSize() const;
 
     int scale() const;
-    Session *session() const override;
+    Session *session() const;
 
     HwcomposerWindow *createSurface();
 
@@ -175,12 +174,12 @@ public:
     BacklightInputEventFilter(HwcomposerBackend *backend);
     virtual ~BacklightInputEventFilter();
 
-    bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override;
-    bool wheelEvent(QWheelEvent *event) override;
-    bool keyEvent(QKeyEvent *event) override;
-    bool touchDown(qint32 id, const QPointF &pos, quint32 time) override;
-    bool touchMotion(qint32 id, const QPointF &pos, quint32 time) override;
-    bool touchUp(qint32 id, quint32 time) override;
+    bool pointerEvent(QMouseEvent *event, quint32 nativeButton);
+    bool wheelEvent(QWheelEvent *event);
+    bool keyEvent(QKeyEvent *event);
+    bool touchDown(qint32 id, const QPointF &pos, quint32 time);
+    bool touchMotion(qint32 id, const QPointF &pos, quint32 time);
+    bool touchUp(qint32 id, quint32 time);
 private:
     void toggleBacklight();
     HwcomposerBackend *m_backend;
