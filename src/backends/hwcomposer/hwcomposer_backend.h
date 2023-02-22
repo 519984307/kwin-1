@@ -21,16 +21,16 @@
 #include <QTimer>
 
 // libhybris
-#include <hardware/hwcomposer.h>
-#include <hwcomposer_window.h>
+#include <android/hardware/hwcomposer.h>
+#include <hybris/hwcomposerwindow/hwcomposer_window.h>
 #include <hybris/hwc2/hwc2_compatibility_layer.h>
 #include <hybris/hwcomposerwindow/hwcomposer.h>
 #include <QBasicTimer>
 
 // needed as hwcomposer_window.h includes EGL which on non-arm includes Xlib
 #include <fixx11h.h>
-#include "renderloop.h"
-#include <KWaylandServer/output_interface.h>
+#include "core/renderloop.h"
+#include <KF5/KWayland/Server/output_interface.h>
 
 
 typedef struct hwc_display_contents_1 hwc_display_contents_1_t;
