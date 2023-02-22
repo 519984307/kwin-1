@@ -199,7 +199,7 @@ public:
      * Returns the RenderLoop for this output. If the platform does not support per screen
      * rendering, all outputs will share the same render loop.
      */
-    virtual RenderLoop *renderLoop() const = 0;
+    virtual RenderLoop *renderLoop() const;
 
     void inhibitDirectScanout();
     void uninhibitDirectScanout();
@@ -351,6 +351,7 @@ protected:
 
     void setInformation(const Information &information);
     void setState(const State &state);
+    void setDpmsModeInternal(DpmsMode dpmsMode);
 
     QSize orientateSize(const QSize &size) const;
 

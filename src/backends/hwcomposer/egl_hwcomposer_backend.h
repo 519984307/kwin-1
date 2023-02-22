@@ -26,14 +26,14 @@ public:
     virtual ~EglHwcomposerBackend();
     std::unique_ptr<SurfaceTexture> createSurfaceTextureInternal(SurfacePixmapInternal *pixmap) override;
     std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmapWayland *pixmap) override;
-    QRegion beginFrame(Output *output) override;
-    void endFrame(Output *output, const QRegion &renderedRegion, const QRegion &damagedRegion) override;
+    QRegion beginFrame(Output *output);
+    void endFrame(Output *output, const QRegion &renderedRegion, const QRegion &damagedRegion);
     void init() override;
 
 private:
     bool initializeEgl();
     bool initRenderingContext();
-    bool initBufferConfigs();
+    bool initBufferConfigs() override;
     bool makeContextCurrent();
     HwcomposerBackend *m_backend;
     HwcomposerWindow *m_nativeSurface = nullptr;

@@ -133,6 +133,11 @@ void Output::uninhibitDirectScanout()
     m_directScanoutCount--;
 }
 
+RenderLoop *Output::renderLoop() const
+{
+    return nullptr;
+}
+
 bool Output::directScanoutInhibited() const
 {
     return m_directScanoutCount;

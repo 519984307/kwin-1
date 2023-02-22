@@ -6,7 +6,6 @@
 */
 #ifndef KWIN_SCREENS_H
 #define KWIN_SCREENS_H
-
 // KWin includes
 #include <kwinglobals.h>
 // KDE includes
@@ -17,21 +16,26 @@
 #include <QRect>
 #include <QTimer>
 #include <QVector>
-
 namespace KWin
 {
 class Window;
 class Output;
 class Platform;
-
 class KWIN_EXPORT Screens : public QObject
 {
     Q_OBJECT
-
 public:
     explicit Screens();
 
     void init();
+
+    QRect geometry(int screen) const;
+    /**
+     * The bounding geometry of all screens combined. Overlapping areas
+     * are not counted multiple times.
+     * @see geometryChanged()
+     */
+    QRect geometry() const;
 
     /**
      * The highest scale() of all connected screens
@@ -40,11 +44,18 @@ public:
      * @see scale
      */
     qreal maxScale() const;
-
     /**
      * The output scale for this display, for use by high DPI displays
      */
     qreal scale(int screen) const;
+    /**
+     * The bounding size of all screens combined. Overlapping areas
+     * are not counted multiple times.
+     *
+     * @see geometry()
+     * @see sizeChanged()
+     */
+    QSize size() const;
 
 Q_SIGNALS:
     /**
@@ -52,19 +63,31 @@ Q_SIGNALS:
      */
     void changed();
     /**
+     * Emitted when the geometry of all screens combined changes.
+     * Not emitted when the geometry of an individual screen changes.
+     * @see geometry()
+     */
+    void geometryChanged();
+    /**
+     * Emitted when the size of all screens combined changes.
+     * Not emitted when the size of an individual screen changes.
+     * @see size()
+     */
+    void sizeChanged();
+    /**
      * Emitted when the maximum scale of all attached screens changes
      * @see maxScale
      */
     void maxScaleChanged();
-
 private Q_SLOTS:
     void updateSize();
-
 private:
     Output *findOutput(int screenId) const;
 
+    QSize m_boundingSize;
     qreal m_maxScale;
 };
 }
+
 
 #endif // KWIN_SCREENS_H

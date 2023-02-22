@@ -137,7 +137,7 @@ QRegion EglHwcomposerBackend::beginFrame(Output *output)
 {
     Q_UNUSED(output)
     makeContextCurrent();
-    return m_damageJournal.accumulate(0, screens()->geometry());
+    return m_damageJournal.accumulate(0, Screens->geometry());
 
 }
 

@@ -14,31 +14,30 @@
 #include "main.h"
 #include "scene/scene.h"
 #include "core/session.h"
-
 //#include "screens_hwcomposer.h"
 #include "wayland_server.h"
 // KWayland
-#include <KWaylandServer/output_interface.h>
-#include <KWaylandServer/seat_interface.h>
+#include <KF5/KWayland/Server/output_interface.h>
+#include <KF5/KWayland/Server/seat_interface.h>
 // KDE
 #include <KConfigGroup>
 // Qt
 #include <QDBusConnection>
 #include <QKeyEvent>
 // hybris/android
-#include <android-config.h>
-#include <hardware/hardware.h>
-#include <hardware/lights.h>
+#include <android/android-config.h>
+#include <android/hardware/hardware.h>
+#include <android/hardware/lights.h>
 #include <hybris/hwc2/hwc2_compatibility_layer.h>
 #include <hybris/hwcomposerwindow/hwcomposer.h>
 // linux
 #include <linux/input.h>
-#include <sync/sync.h>
+#include <android/sync/sync.h>
 
 #include <QDBusError>
 #include <QtConcurrent>
 #include <QDBusMessage>
-#include "renderloop_p.h"
+#include "core/renderloop_p.h"
 #include "composite.h"
 // based on test_hwcomposer.c from libhybris project (Apache 2 licensed)
 
@@ -146,8 +145,6 @@ HwcomposerBackend::HwcomposerBackend(QObject *parent)
     : OutputBackend(parent)
     , m_session(Session::create(this))
 {
-    setPerScreenRenderingEnabled(true);
-    supportsOutputChanges();
 
     if (!QDBusConnection::sessionBus().connect(QStringLiteral("org.kde.Solid.PowerManagement"),
                                               QStringLiteral("/org/kde/Solid/PowerManagement/Actions/BrightnessControl"),
@@ -305,10 +302,8 @@ bool HwcomposerBackend::initialize()
     }
 
     Q_EMIT outputAdded(m_output.data());
-    Q_EMIT outputEnabled(m_output.data());
 
-    setReady(true);
-    Q_EMIT screensQueried();
+    Q_EMIT outputsQueried();
 
     return true;
 }
@@ -390,7 +385,7 @@ void HwcomposerBackend::updateOutputsEnabled()
 bool HwcomposerBackend::updateOutputs()
 {
     updateOutputsEnabled();
-    Q_EMIT screensQueried();
+    Q_EMIT outputsQueried();
 
     return true;
 }
@@ -558,39 +553,18 @@ HwcomposerOutput::HwcomposerOutput(HwcomposerBackend *backend, hwc2_compat_displ
         }
     }
 
-    // read in mode information
-    QVector<Mode> modes;
-    {
-        ModeFlags deviceflags = 0;
-        deviceflags |= ModeFlag::Current;
-        deviceflags |= ModeFlag::Preferred;
-
-        Mode mode;
-        mode.id = 0;
-        mode.size = QSize(attr_values[0], attr_values[1]);
-        mode.flags = deviceflags;
-        mode.refreshRate = (attr_values[4] == 0) ? 60000 : 10E11 / attr_values[4];
-        modes << mode;
-    }
-    initialize(QString(), QString(), QString(), QString(), physicalSize.toSize(), modes, {});
-    setInternal(true);
-    setCapabilityInternal(HwcomposerOutput::Capability::Dpms);
-
+    Capabilities capabilities = 0;
+    capabilities |= HwcomposerOutput::Capability::Dpms;
 
     const auto outputGroup = kwinApp()->config()->group("HWComposerOutputs").group("0");
-    setCurrentModeInternal(pixelSize, modes[0].refreshRate);
 
     const qreal dpi = modeSize().height() / (physicalSize.height() / 25.4);
     KConfig _cfgfonts(QStringLiteral("kcmfonts"));
     KConfigGroup cfgfonts(&_cfgfonts, "General");
     qDebug() << Q_FUNC_INFO << "set default xft dpi: modeSize:" << modeSize() << "physicalSize:" << physicalSize << "dpi:" << dpi;
     cfgfonts.writeEntry("defaultXftDpi", 192);
-    setScale(1.0);
 
     QString debugScale = qgetenv("KWIN_DEBUG_SCALE");
-    if (!debugScale.isEmpty()) {
-        setScale(outputGroup.readEntry("Scale", debugScale.toFloat()));
-    }
 }
 
 HwcomposerOutput::~HwcomposerOutput()
