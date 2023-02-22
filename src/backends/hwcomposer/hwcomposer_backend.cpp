@@ -513,7 +513,7 @@ bool HwcomposerOutput::hardwareTransforms() const
 }
 
 HwcomposerOutput::HwcomposerOutput(HwcomposerBackend *backend, hwc2_compat_display_t *hwc2_primary_display)
-    : AbstractWaylandOutput(), m_renderLoop(new RenderLoop(this)), m_hwc2_primary_display(hwc2_primary_display), m_backend(backend)
+    : AbstractOutput(), m_renderLoop(new RenderLoop(this)), m_hwc2_primary_display(hwc2_primary_display), m_backend(backend)
 {
     int32_t attr_values[5];
     HWC2DisplayConfig *config = hwc2_compat_display_get_active_config(hwc2_primary_display);

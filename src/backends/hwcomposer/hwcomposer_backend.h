@@ -9,7 +9,7 @@
 #ifndef KWIN_HWCOMPOSER_BACKEND_H
 #define KWIN_HWCOMPOSER_BACKEND_H
 #include "core/outputbackend.h"
-#include "abstract_wayland_output.h"
+#include "abstract_output.h"
 #include "input.h"
 #include "backends/libinput/libinputbackend.h"
 
@@ -18,6 +18,8 @@
 #include <QWaitCondition>
 #include <QSemaphore>
 #include <QFile>
+#include <QTimer>
+
 // libhybris
 #include <hardware/hwcomposer.h>
 #include <hwcomposer_window.h>
@@ -46,7 +48,7 @@ class HwcomposerBackend;
 class BacklightInputEventFilter;
 
 
-class HwcomposerOutput : public AbstractWaylandOutput
+class HwcomposerOutput : public AbstractOutput
 {
     Q_OBJECT
 public:
@@ -116,7 +118,7 @@ public:
     }
 
 Q_SIGNALS:
-    void outputBlankChanged();
+   void outputBlankChanged();
 
 private Q_SLOTS:
     void toggleBlankOutput();
@@ -127,10 +129,10 @@ private Q_SLOTS:
     void compositing(int flags);
 
 private:
-    friend HwcomposerWindow;   
+    friend HwcomposerWindow;
     void setPowerMode(bool enable);
     bool updateOutputs();
-    void updateOutputsEnabled();  
+    void updateOutputsEnabled();
     void toggleScreenBrightness();
     void initLights();
 
@@ -142,7 +144,7 @@ private:
     QSemaphore     m_compositingSemaphore;
     QScopedPointer<BacklightInputEventFilter> m_filter;
     QScopedPointer<HwcomposerOutput> m_output;
-    bool m_outputBlank = true;    
+    bool m_outputBlank = true;
     int m_oldScreenBrightness = 0x7f;
 
     void RegisterCallbacks();
