@@ -14,6 +14,7 @@
 #include "backends/virtual/virtual_backend.h"
 #include "backends/wayland/wayland_backend.h"
 #include "backends/x11/windowed/x11_windowed_backend.h"
+#include "backends/hwcomposer/hwcomposer_backend.h"
 #include "composite.h"
 #include "core/outputbackend.h"
 #include "core/session.h"
@@ -309,7 +310,7 @@ int main(int argc, char *argv[])
     QCommandLineOption waylandDisplayOption(QStringLiteral("wayland-display"),
                                             i18n("The Wayland Display to use in windowed mode on platform Wayland."),
                                             QStringLiteral("display"));
-    QCommandLineOption virtualFbOption(QStringLiteral("hwcomposer"), i18n("Render to a a hwcomposer platform."));
+    QCommandLineOption hwcomposerDisplayOption(QStringLiteral("hwcomposer-display"), i18n("Render to a a hwcomposer platform."));
     QCommandLineOption virtualFbOption(QStringLiteral("virtual"), i18n("Render to a virtual framebuffer."));
     QCommandLineOption widthOption(QStringLiteral("width"),
                                    i18n("The width for windowed mode. Default width is 1024."),
@@ -429,6 +430,7 @@ int main(int argc, char *argv[])
         Kms,
         X11,
         Wayland,
+        Hwcomposer,
         Virtual,
     };
 
@@ -445,6 +447,8 @@ int main(int argc, char *argv[])
         backendType = BackendType::X11;
     } else if (parser.isSet(waylandDisplayOption)) {
         backendType = BackendType::Wayland;
+    } else if (parser.isSet(hwcomposerDisplayOption)) {
+        backendType = BackendType::Hwcomposer;
     } else if (parser.isSet(virtualFbOption)) {
         backendType = BackendType::Virtual;
     } else {
@@ -454,6 +458,9 @@ int main(int argc, char *argv[])
         } else if (qEnvironmentVariableIsSet("DISPLAY")) {
             qWarning("No backend specified, automatically choosing X11 because DISPLAY is set");
             backendType = BackendType::X11;
+        } else if (qEnvironmentVariableIsSet("ANDROID_ROOT")) {
+            qWarning("No backend specified, automatically choosing hwcomposer because ANDROID_ROOT is set")
+            backendType = BackendType::Hwcomposer
         } else {
             qWarning("No backend specified, automatically choosing drm");
             backendType = BackendType::Kms;
