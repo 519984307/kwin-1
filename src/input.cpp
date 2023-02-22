@@ -40,6 +40,7 @@
 #include "internalwindow.h"
 #include "popup_input_filter.h"
 #include "screenedge.h"
+#include "screens.h"
 #include "unmanaged.h"
 #include "virtualdesktops.h"
 #include "wayland/display.h"

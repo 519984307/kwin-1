@@ -13,7 +13,7 @@
 #include "logging.h"
 #include "main.h"
 #include "scene/scene.h"
-#include "session.h"
+#include "core/session.h"
 
 //#include "screens_hwcomposer.h"
 #include "wayland_server.h"

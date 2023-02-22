@@ -39,6 +39,7 @@
 #include "pluginmanager.h"
 #include "rules.h"
 #include "screenedge.h"
+#include "screens.h"
 #include "scripting/scripting.h"
 #include "syncalarmx11filter.h"
 #include "tiles/tilemanager.h"
@@ -163,6 +164,7 @@ Workspace::Workspace()
     m_rulebook = std::make_unique<RuleBook>();
     m_rulebook->load();
 
+    m_screens = std::make_unique<Screens>();
     m_screenEdges = std::make_unique<ScreenEdges>();
 
     // VirtualDesktopManager needs to be created prior to init shortcuts
@@ -213,6 +215,8 @@ void Workspace::init()
 
     slotOutputBackendOutputsQueried();
     connect(kwinApp()->outputBackend(), &OutputBackend::outputsQueried, this, &Workspace::slotOutputBackendOutputsQueried);
+
+    m_screens->init();
 
     // create VirtualDesktopManager and perform dependency injection
     VirtualDesktopManager *vds = VirtualDesktopManager::self();
@@ -3311,6 +3315,11 @@ RuleBook *Workspace::rulebook() const
 ScreenEdges *Workspace::screenEdges() const
 {
     return m_screenEdges.get();
+}
+
+Screens *Workspace::screens() const
+{
+    return m_screens.get();
 }
 
 TileManager *Workspace::tileManager(Output *output)

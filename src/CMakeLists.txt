@@ -137,6 +137,7 @@ target_sources(kwin PRIVATE
     scene/workspacescene_opengl.cpp
     scene/workspacescene_qpainter.cpp
     screenedge.cpp
+    screens.cpp
     scripting/dbuscall.cpp
     scripting/desktopbackgrounditem.cpp
     scripting/screenedgehandler.cpp
