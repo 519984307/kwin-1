@@ -9,7 +9,6 @@
 #include "egl_hwcomposer_backend.h"
 #include "hwcomposer_backend.h"
 #include "logging.h"
-#include "screens.h"
 
 // kwin libs
 #include <kwinglplatform.h>
@@ -137,7 +136,7 @@ QRegion EglHwcomposerBackend::beginFrame(Output *output)
 {
     Q_UNUSED(output)
     makeContextCurrent();
-    return m_damageJournal.accumulate(0, Screens->geometry());
+    return m_damageJournal.accumulate(0, infiniteRegion());
 
 }
 
