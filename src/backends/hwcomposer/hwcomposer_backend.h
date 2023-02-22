@@ -82,7 +82,7 @@ public:
     virtual ~HwcomposerBackend();
 
     bool initialize() override;
-    OpenGLBackend *createOpenGLBackend() override;
+    std::unique_ptr<OpenGLBackend> createOpenGLBackend() override;
 
     Outputs outputs() const override;
     Outputs enabledOutputs() const;
@@ -95,7 +95,7 @@ public:
 
     HwcomposerWindow *createSurface();
 
-    InputBackend *createInputBackend() override;
+    std::unique_ptr<InputBackend> createInputBackend() override;
 
     void enableVSync(bool enable);
     void waitVSync();

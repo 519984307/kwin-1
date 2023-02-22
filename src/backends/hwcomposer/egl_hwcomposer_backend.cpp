@@ -149,14 +149,14 @@ void EglHwcomposerBackend::endFrame(Output *output, const QRegion &renderedRegio
     m_damageJournal.add(renderedRegion);
 }
 
-SurfaceTexture *EglHwcomposerBackend::createSurfaceTextureInternal(SurfacePixmapInternal *pixmap)
+std::unique_ptr<SurfaceTexture> EglHwcomposerBackend::createSurfaceTextureInternal(SurfacePixmapInternal *pixmap)
 {
-    return new BasicEGLSurfaceTextureInternal(this, pixmap);
+    return std::make_unique<BasicEGLSurfaceTextureInternal>(this, pixmap);
 }
 
-SurfaceTexture *EglHwcomposerBackend::createSurfaceTextureWayland(SurfacePixmapWayland *pixmap)
+std::unique_ptr<SurfaceTexture> EglHwcomposerBackend::createSurfaceTextureWayland(SurfacePixmapWayland *pixmap)
 {
-    return new BasicEGLSurfaceTextureWayland(this, pixmap);
+    return std::make_unique<BasicEGLSurfaceTextureWayland>(this, pixmap);
 }
 
 }

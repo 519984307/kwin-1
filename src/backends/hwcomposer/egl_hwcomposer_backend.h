@@ -9,7 +9,7 @@
 #ifndef KWIN_EGL_HWCOMPOSER_BACKEND_H
 #define KWIN_EGL_HWCOMPOSER_BACKEND_H
 #include "abstract_egl_backend.h"
-#include "utils/common.h"
+#include "utils/damagejournal.h"
 #include <KF5/KWayland/Server/outputdevice_interface.h>
 
 #define ROTATE_EGL 0
@@ -24,8 +24,8 @@ class EglHwcomposerBackend : public AbstractEglBackend
 public:
     EglHwcomposerBackend(HwcomposerBackend *backend);
     virtual ~EglHwcomposerBackend();
-    SurfaceTexture *createSurfaceTextureInternal(SurfacePixmapInternal *pixmap) override;
-    SurfaceTexture *createSurfaceTextureWayland(SurfacePixmapWayland *pixmap) override;
+    std::unique_ptr<SurfaceTexture> createSurfaceTextureInternal(SurfacePixmapInternal *pixmap) override;
+    std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmapWayland *pixmap) override;
     QRegion beginFrame(Output *output) override;
     void endFrame(Output *output, const QRegion &renderedRegion, const QRegion &damagedRegion) override;
     void init() override;
