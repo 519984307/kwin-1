@@ -133,7 +133,7 @@ bool EglHwcomposerBackend::makeContextCurrent()
     return true;
 }
 
-QRegion EglHwcomposerBackend::beginFrame(AbstractOutput *output)
+QRegion EglHwcomposerBackend::beginFrame(Output *output)
 {
     Q_UNUSED(output)
     makeContextCurrent();
@@ -141,7 +141,7 @@ QRegion EglHwcomposerBackend::beginFrame(AbstractOutput *output)
 
 }
 
-void EglHwcomposerBackend::endFrame(AbstractOutput *output, const QRegion &renderedRegion, const QRegion &damagedRegion)
+void EglHwcomposerBackend::endFrame(Output *output, const QRegion &renderedRegion, const QRegion &damagedRegion)
 {
     Q_UNUSED(output)
     Q_UNUSED(damagedRegion)

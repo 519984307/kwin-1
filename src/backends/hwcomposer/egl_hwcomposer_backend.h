@@ -25,9 +25,9 @@ public:
     EglHwcomposerBackend(HwcomposerBackend *backend);
     virtual ~EglHwcomposerBackend();
     SurfaceTexture *createSurfaceTextureInternal(SurfacePixmapInternal *pixmap) override;
-    SurfaceTexture *createSurfaceTextureWayland(SurfacePixmapWayland *pixmap) override;   
-    QRegion beginFrame(AbstractOutput *output) override;
-    void endFrame(AbstractOutput *output, const QRegion &renderedRegion, const QRegion &damagedRegion) override;
+    SurfaceTexture *createSurfaceTextureWayland(SurfacePixmapWayland *pixmap) override;
+    QRegion beginFrame(Output *output) override;
+    void endFrame(Output *output, const QRegion &renderedRegion, const QRegion &damagedRegion) override;
     void init() override;
 
 private:

@@ -9,7 +9,7 @@
 #ifndef KWIN_HWCOMPOSER_BACKEND_H
 #define KWIN_HWCOMPOSER_BACKEND_H
 #include "core/outputbackend.h"
-#include "abstract_output.h"
+#include "core/output.h"
 #include "input.h"
 #include "backends/libinput/libinputbackend.h"
 
@@ -48,7 +48,7 @@ class HwcomposerBackend;
 class BacklightInputEventFilter;
 
 
-class HwcomposerOutput : public AbstractOutput
+class HwcomposerOutput : public Output
 {
     Q_OBJECT
 public:
