@@ -8,7 +8,7 @@
 */
 #ifndef KWIN_HWCOMPOSER_BACKEND_H
 #define KWIN_HWCOMPOSER_BACKEND_H
-#include "outputbackend.h"
+#include "core/outputbackend.h"
 #include "abstract_wayland_output.h"
 #include "input.h"
 #include "backends/libinput/libinputbackend.h"
